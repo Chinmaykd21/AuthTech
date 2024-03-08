@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { ModeToggle } from "@/components/theme-switcher/theme-switcher";
+import { ModeToggle } from "@/components/theme-switcher";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +25,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          {/* TODO: Add this theme switcher later to the a nav menu component */}
           <ModeToggle />
           {children}
         </ThemeProvider>
