@@ -42,3 +42,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 3. `npx prisma studio` an internal tool provided by prisma to access your local DB instance
 
 > Important Reference for difference between db push vs migrate:https://www.prisma.io/docs/orm/prisma-migrate/workflows/prototyping-your-schema#choosing-db-push-or-prisma-migrate
+
+<!-- TODO: Create a learning section on what learnt in this project -->
+
+<!-- TODO: Update your routes to use @ -->
