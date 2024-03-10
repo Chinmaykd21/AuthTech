@@ -1,0 +1,16 @@
+services:
+  postgres-lms:
+    container_name: postgreslms
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=lmsdb
+    ports:
+      - 5432:5432
+    # Note: Uncomment this line if you want to
+    # persist data after containers are spinned
+    # down
+    # volumes:
+    #   - ./pgdata:/var/lib/postgresql/data
