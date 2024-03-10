@@ -1,5 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardFooter } from "../ui/card";
+import Header from "./Header";
+import Social from "./Social";
 
 interface CardWrapperProps {
   children: React.ReactNode;
@@ -16,5 +18,17 @@ export const CardWrapper = ({
   backButtonHref,
   showSocial,
 }: CardWrapperProps) => {
-  return <Card className="w-[400px] shadow-md">Login Form</Card>;
+  return (
+    <Card className="w-[400px] shadow-md">
+      <CardHeader>
+        <Header label={headerLabel} />
+      </CardHeader>
+      <CardContent>{children}</CardContent>
+      {showSocial && (
+        <CardFooter>
+          <Social />
+        </CardFooter>
+      )}
+    </Card>
+  );
 };
