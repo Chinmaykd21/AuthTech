@@ -34,3 +34,11 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+<!-- DO NOT REMOVE -->
+
+1. `npx prisma generate` to access the db client successfully
+2. `npx prisma db push` this will push your db changes to make them available and accessible via command mentioned in step 3
+3. `npx prisma studio` an internal tool provided by prisma to access your local DB instance
+
+> Important Reference for difference between db push vs migrate:https://www.prisma.io/docs/orm/prisma-migrate/workflows/prototyping-your-schema#choosing-db-push-or-prisma-migrate
