@@ -1,11 +1,29 @@
-import React from "react";
+import { auth, signOut } from "@/auth";
 import { ModeToggle } from "./theme-switcher";
+import { Button } from "./ui/button";
 
-const LandingPageNavBar = () => {
+// TODO: When session active, add sign-out functionality
+const LandingPageNavBar = async () => {
+  const session = await auth();
+
   return (
     <div className="flex justify-between items-center p-3">
       <p className="text-2xl italic">Library Management System</p>
-      <ModeToggle />
+      <div className="flex justify-between items-center p-3 gap-x-4">
+        {session ? (
+          <form
+            action={async () => {
+              "use server";
+              await signOut();
+            }}
+          >
+            <Button variant="secondary" size="lg" type="submit">
+              Sign Out
+            </Button>
+          </form>
+        ) : null}
+        <ModeToggle />
+      </div>
     </div>
   );
 };
