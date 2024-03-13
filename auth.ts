@@ -3,6 +3,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import authConfig from "./auth.config";
 import { db } from "./lib/db";
 import { UserRole } from "@prisma/client";
+import { getUserById } from "./data/user";
 
 export const {
   handlers: { GET, POST },
@@ -11,6 +12,15 @@ export const {
   signOut,
 } = NextAuth({
   callbacks: {
+    async signIn({ user }) {
+      if (!user) return false;
+
+      const existingUser = await getUserById(user.id ?? "");
+
+      if (!existingUser || !existingUser?.emailVerified) return false;
+
+      return true;
+    },
     async session({ session, token }) {
       if (session?.user && token?.sub) {
         session.user.id = token.sub;
@@ -22,6 +32,7 @@ export const {
         // and token to have role field included.
         session.user.role = token.role as UserRole;
       }
+      // TODO: Remove these in the final version
       // console.log(
       //   `**** session -> ${JSON.stringify(
       //     session
