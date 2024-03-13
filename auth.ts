@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import authConfig from "./auth.config";
 import { db } from "./lib/db";
+import { UserRole } from "@prisma/client";
 
 export const {
   handlers: { GET, POST },
@@ -16,14 +17,16 @@ export const {
       }
 
       if (session?.user && token?.role) {
-        session.user.role = token.role;
+        // Refer to the types/next-auth.d.ts
+        // to see how we have extended the session
+        // and token to have role field included.
+        session.user.role = token.role as UserRole;
       }
-
-      console.log(
-        `**** session -> ${JSON.stringify(
-          session
-        )}\n**** token -> ${JSON.stringify(token)}`
-      );
+      // console.log(
+      //   `**** session -> ${JSON.stringify(
+      //     session
+      //   )}\n**** token -> ${JSON.stringify(token)}`
+      // );
       return session;
     },
     async jwt({ token, user }) {

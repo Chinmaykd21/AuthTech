@@ -17,9 +17,9 @@ declare module "@auth/core/adapters" {
   }
 }
 
-declare module "next-auth/jwt" {
-  // Extend token to hold the role before it gets put into the session
-  interface JWT {
-    role: UserRole & DefaultJWT;
-  }
-}
+// declare module "next-auth/jwt" {
+//   // Extend token to hold the role before it gets put into the session
+//   interface JWT {
+//     role: UserRole & DefaultJWT;
+//   }
+// }
