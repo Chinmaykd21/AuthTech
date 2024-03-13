@@ -1,4 +1,4 @@
-import { PrismaClient, User } from "@prisma/client";
+import { PrismaClient, User, UserRole } from "@prisma/client";
 import { faker } from "@faker-js/faker";
 
 /**
@@ -17,6 +17,7 @@ async function main() {
       refDate: "2023-07-01T00:00:00.000Z",
     }),
     password: "$2a$10$gTO7o3cdoCNUjVCNnrTeKu7aN5HMJ53ebEIoYZn6qeQIGiww2rjAu",
+    role: UserRole.ADMIN,
   };
 
   const user = await prisma.user.create({
