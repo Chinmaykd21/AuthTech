@@ -16,6 +16,7 @@ async function main() {
       days: 100,
       refDate: "2023-07-01T00:00:00.000Z",
     }),
+    image: faker.image.url(),
     password: "$2a$10$gTO7o3cdoCNUjVCNnrTeKu7aN5HMJ53ebEIoYZn6qeQIGiww2rjAu",
     role: UserRole.ADMIN,
   };

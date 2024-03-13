@@ -14,6 +14,11 @@ export const {
       if (session?.user && token?.sub) {
         session.user.id = token.sub;
       }
+
+      if (session?.user && token?.role) {
+        session.user.role = token.role;
+      }
+
       console.log(
         `**** session -> ${JSON.stringify(
           session
@@ -21,7 +26,15 @@ export const {
       );
       return session;
     },
-    async jwt({ token }) {
+    async jwt({ token, user }) {
+      // The user will have a value only once during
+      // log in. For all other sub-sequent calls it will have
+      // undefined value.
+      if (!user) return token;
+
+      console.log(`*********** USER -> ${JSON.stringify(user)}`);
+      token.role = user?.role;
+
       return token;
     },
   },
