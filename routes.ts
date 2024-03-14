@@ -8,7 +8,7 @@ export const publicRoutes = ["/"];
  * An array of routes that will not be accessible to the user who is not logged in.
  * These routes do need an authentication.
  */
-export const authRoutes = ["/auth/login", "/auth/register"];
+export const authRoutes = ["/auth/login", "/auth/register", "/auth/error"];
 
 /**
  * The prefix for API authentication routes.
