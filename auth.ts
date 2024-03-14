@@ -11,15 +11,35 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
+  events: {
+    async linkAccount({ user }) {
+      console.log("**** user", JSON.stringify(user));
+      await db.user.update({
+        where: {
+          id: user?.id,
+        },
+        data: {
+          emailVerified: new Date(),
+        },
+      });
+    },
+  },
   callbacks: {
-    async signIn({ user }) {
-      if (!user) return false;
-
-      const existingUser = await getUserById(user.id ?? "");
-
-      if (!existingUser || !existingUser?.emailVerified) return false;
-
-      return true;
+    async signIn({ user, account }) {
+      // Only have support for 2 providers, i.e.,
+      // 1. Credentials
+      // 2. Github
+      // Allow Login for only these sources. If
+      // user is coming from anywhere else, just
+      // do not allow login.
+      if (account?.type === "credentials") {
+        const existingUser = await getUserById(user.id ?? "");
+        if (!existingUser || !existingUser?.emailVerified) return false;
+        return true;
+      } else if (account?.type === "oauth" && account?.provider === "github") {
+        return true;
+      }
+      return false;
     },
     async session({ session, token }) {
       if (session?.user && token?.sub) {
@@ -32,12 +52,7 @@ export const {
         // and token to have role field included.
         session.user.role = token.role as UserRole;
       }
-      // TODO: Remove these in the final version
-      // console.log(
-      //   `**** session -> ${JSON.stringify(
-      //     session
-      //   )}\n**** token -> ${JSON.stringify(token)}`
-      // );
+
       return session;
     },
     async jwt({ token, user }) {
@@ -46,7 +61,6 @@ export const {
       // undefined value.
       if (!user) return token;
 
-      console.log(`*********** USER -> ${JSON.stringify(user)}`);
       token.role = user?.role;
 
       return token;
