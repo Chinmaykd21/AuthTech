@@ -17,7 +17,6 @@ export const {
   },
   events: {
     async linkAccount({ user }) {
-      console.log("**** user", JSON.stringify(user));
       await db.user.update({
         where: {
           id: user?.id,
@@ -38,6 +37,7 @@ export const {
       // do not allow login.
       if (account?.type === "credentials") {
         const existingUser = await getUserById(user.id ?? "");
+        // Prevent sign in without email verification
         if (!existingUser || !existingUser?.emailVerified) return false;
         return true;
       } else if (account?.type === "oauth" && account?.provider === "github") {
