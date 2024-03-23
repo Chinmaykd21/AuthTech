@@ -8,6 +8,8 @@ export const sendVerificationEmail = async (
   token: string,
   name: string
 ) => {
+  // TODO: Once domain has been set or obtained, update this
+  // hardcoded URL to handle production scenario
   const confirmLink = `http://localhost:3000/auth/new-verification?token=${token}`;
 
   await resend.emails.send({
