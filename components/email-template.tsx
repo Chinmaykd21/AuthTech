@@ -2,18 +2,24 @@ import React from "react";
 
 type EmailTemplateProps = {
   name: string;
-  confirmLink: string;
+  confirmOrResetLink: string;
+  resetPassword: boolean;
 };
 
 const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
   name,
-  confirmLink,
+  confirmOrResetLink,
+  resetPassword,
 }) => {
+  const displayText = resetPassword
+    ? "reset your password"
+    : "confirm your email";
+
   return (
     <div>
       <h1>Hi, {name}!</h1>
       <p>
-        Click <a href={`${confirmLink}`}>here</a> to confirm your email.
+        Click <a href={`${confirmOrResetLink}`}>here</a> to {`${displayText}`}.
       </p>
     </div>
   );
