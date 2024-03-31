@@ -30,7 +30,11 @@ export const resetPassword = async (
   const passwordResetToken = await generatePasswordResetToken(email);
 
   // TODO: Update name parameter to handle empty string
-  await sendPasswordResetEmail("", email, passwordResetToken.token);
+  await sendPasswordResetEmail(
+    "",
+    passwordResetToken.email,
+    passwordResetToken.token
+  );
 
   return {
     success: "Password reset email sent successfully!",
