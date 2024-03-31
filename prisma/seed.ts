@@ -1,4 +1,9 @@
-import { PrismaClient, User, UserRole } from "@prisma/client";
+import {
+  PrismaClient,
+  TwoFactorConfirmation,
+  User,
+  UserRole,
+} from "@prisma/client";
 import { faker } from "@faker-js/faker";
 
 /**
@@ -8,8 +13,10 @@ import { faker } from "@faker-js/faker";
 const prisma = new PrismaClient();
 
 async function main() {
+  const testId = faker.string.uuid();
+
   const testUser: User = {
-    id: faker.string.alphanumeric(),
+    id: testId,
     name: faker.person.firstName(),
     email: "testUser1@email.com",
     emailVerified: faker.date.recent({
@@ -19,11 +26,23 @@ async function main() {
     image: faker.image.url(),
     password: "$2a$10$gTO7o3cdoCNUjVCNnrTeKu7aN5HMJ53ebEIoYZn6qeQIGiww2rjAu",
     role: UserRole.ADMIN,
+    isTwoFactorEnabled: true,
   };
 
-  const user = await prisma.user.create({
+  const testTwoFactorConfirmation: TwoFactorConfirmation = {
+    id: faker.string.uuid(),
+    userId: testUser.id,
+  };
+
+  await prisma.user.create({
     data: {
       ...testUser,
+    },
+  });
+
+  await prisma.twoFactorConfirmation.create({
+    data: {
+      ...testTwoFactorConfirmation,
     },
   });
 }
