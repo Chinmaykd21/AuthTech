@@ -1,8 +1,9 @@
-import { auth } from "@/auth";
+"use client";
 
-const SettingsPage = async () => {
-  const session = await auth();
+import { useSession } from "next-auth/react";
 
+const SettingsPage = () => {
+  const session = useSession();
   return <div>Settings Page!</div>;
 };
 
