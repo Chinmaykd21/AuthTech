@@ -9,7 +9,7 @@ export const sendTwoFactorEmail = async (email: string, token: string) => {
   await resend.emails.send({
     from: "onboading@resend.dev",
     to: [email],
-    subject: "Reset your password",
+    subject: "Two Factor Code",
     react: TwoFactorEmailTemplate({ token }),
     text: "",
   });
