@@ -1,7 +1,19 @@
 import EmailTemplate from "@/components/email-template";
+import TwoFactorEmailTemplate from "@/components/two-factor-email-template";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+
+// TODO: See if this can be updated later
+export const sendTwoFactorEmail = async (email: string, token: string) => {
+  await resend.emails.send({
+    from: "onboading@resend.dev",
+    to: [email],
+    subject: "Reset your password",
+    react: TwoFactorEmailTemplate({ token }),
+    text: "",
+  });
+};
 
 // TODO: Merge the two functions sendPasswordReset, and sendVerificationEmail
 // to one function
