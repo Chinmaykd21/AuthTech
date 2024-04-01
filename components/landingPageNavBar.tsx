@@ -14,6 +14,8 @@ const LandingPageNavBar = async () => {
           <form
             action={async () => {
               "use server";
+              // Maybe some information about the user can be done here
+              // thats why I would prefer this way of doing things.
               await signOut();
             }}
           >

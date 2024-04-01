@@ -1,10 +1,11 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 const SettingsPage = () => {
-  const session = useSession();
-  return <div>Settings Page!</div>;
+  const user = useCurrentUser();
+
+  return <div>{JSON.stringify(user)}</div>;
 };
 
 export default SettingsPage;
