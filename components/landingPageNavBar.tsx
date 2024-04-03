@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { UserButton } from "./auth/UserButton";
 
 const LandingPageNavBar = () => {
   const user = useCurrentUser();
@@ -54,9 +55,17 @@ const LandingPageNavBar = () => {
       </div>
       <div className="flex justify-between items-center p-3 gap-x-4">
         {user ? (
-          <Button variant="secondary" size="sm" type="submit" onClick={onClick}>
-            Sign Out
-          </Button>
+          <>
+            <Button
+              variant="secondary"
+              size="sm"
+              type="submit"
+              onClick={onClick}
+            >
+              Sign Out
+            </Button>
+            <UserButton />
+          </>
         ) : null}
         <ModeToggle />
       </div>
