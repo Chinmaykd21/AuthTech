@@ -1,33 +1,93 @@
 "use client";
 
+import * as z from "zod";
 import { settings } from "@/actions/settings";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useSession } from "next-auth/react";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
+import { settingsSchema } from "@/schemas";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import {
+  Form,
+  FormField,
+  FormControl,
+  FormItem,
+  FormLabel,
+  FormDescription,
+  FormMessage,
+} from "@/components/ui/form";
+
+import { Input } from "@/components/ui/input";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 const SettingsPage = () => {
+  const user = useCurrentUser();
   const { data: session, update } = useSession();
 
   const [isPending, startTransition] = useTransition();
-  const onClick = () => {
+  const [error, setError] = useState<String | undefined>("");
+  const [success, setSuccess] = useState<String | undefined>("");
+
+  const form = useForm<z.infer<typeof settingsSchema>>({
+    resolver: zodResolver(settingsSchema),
+    defaultValues: {
+      name: user?.name || "",
+    },
+  });
+
+  const onSubmit = (values: z.infer<typeof settingsSchema>) => {
     startTransition(() => {
-      settings({
-        name: "Isador",
-      }).then(() => {
-        update();
-      });
+      settings(values)
+        .then((data) => {
+          if (data?.error) {
+            setError(data.error);
+          }
+          if (data?.sucess) {
+            update();
+            setSuccess(data.sucess);
+          }
+        })
+        .catch(() => {
+          setError("Something went wrong!");
+        });
     });
   };
+
   return (
     <Card className="w-[600px]">
       <CardHeader>
         <p className="text-2xl font-semibold text-center">⚙️ Settings</p>
       </CardHeader>
       <CardContent>
-        <Button disabled={isPending} onClick={onClick}>
-          Update name
-        </Button>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <div className="space-y-4">
+              <>
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder="John Doe"
+                          disabled={isPending}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </>
+              <Button type="submit">Save</Button>
+            </div>
+          </form>
+        </Form>
+        <br />
         <p>{JSON.stringify(session)}</p>
       </CardContent>
     </Card>
