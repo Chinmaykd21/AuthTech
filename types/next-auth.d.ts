@@ -17,6 +17,10 @@ declare module "@auth/core/adapters" {
   }
 }
 
+export type ExtendedUser = DefaultSession["user"] & {
+  role: UserRole;
+};
+
 // declare module "next-auth/jwt" {
 //   // Extend token to hold the role before it gets put into the session
 //   interface JWT {
