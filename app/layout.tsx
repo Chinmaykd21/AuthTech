@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import LandingPageNavBar from "@/components/landingPageNavBar";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
+import { Toaster } from "@/components/ui/sonner";
+
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,6 +34,7 @@ export default async function RootLayout({
           >
             <LandingPageNavBar />
             {children}
+            <Toaster />
           </ThemeProvider>
         </body>
       </html>
