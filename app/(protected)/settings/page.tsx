@@ -20,8 +20,18 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import { Input } from "@/components/ui/input";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { FormError } from "@/components/form-error";
+import { FormSuccess } from "@/components/form-success";
 
 const SettingsPage = () => {
   const user = useCurrentUser();
@@ -34,7 +44,10 @@ const SettingsPage = () => {
   const form = useForm<z.infer<typeof settingsSchema>>({
     resolver: zodResolver(settingsSchema),
     defaultValues: {
-      name: user?.name || "",
+      name: user?.name as string,
+      email: user?.email as string,
+      password: undefined,
+      newPassword: undefined,
     },
   });
 
@@ -82,8 +95,79 @@ const SettingsPage = () => {
                     </FormItem>
                   )}
                 />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder="JohnDoe@email.com"
+                          disabled={isPending}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder="******"
+                          disabled={isPending}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>New Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder="******"
+                          disabled={isPending}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="role"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Role</FormLabel>
+                      <FormControl>
+                        {/* TODO: This input field does not display
+                        the user role correctly */}
+                        <Input
+                          {...field}
+                          placeholder={field.value}
+                          type="text"
+                          disabled
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
               </>
-              <Button type="submit">Save</Button>
+              <FormError message={error as string} />
+              <FormSuccess message={success as string} />
+              <Button disabled={isPending} type="submit">
+                Save
+              </Button>
             </div>
           </form>
         </Form>
