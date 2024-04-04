@@ -1,6 +1,5 @@
 "use client";
 
-import { signOut } from "next-auth/react";
 import { ModeToggle } from "./theme-switcher";
 import { Button } from "./ui/button";
 import Link from "next/link";
@@ -11,10 +10,6 @@ import { UserButton } from "./auth/UserButton";
 const LandingPageNavBar = () => {
   const user = useCurrentUser();
   const pathName = usePathname();
-
-  const onClick = () => {
-    signOut();
-  };
 
   return (
     <div className="flex justify-between items-center p-3">
@@ -53,20 +48,8 @@ const LandingPageNavBar = () => {
           </>
         ) : null}
       </div>
-      <div className="flex justify-between items-center p-3 gap-x-4">
-        {user ? (
-          <>
-            <Button
-              variant="secondary"
-              size="sm"
-              type="submit"
-              onClick={onClick}
-            >
-              Sign Out
-            </Button>
-            <UserButton />
-          </>
-        ) : null}
+      <div className="flex gap-x-4">
+        {user ? <UserButton /> : null}
         <ModeToggle />
       </div>
     </div>
