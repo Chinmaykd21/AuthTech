@@ -74,16 +74,35 @@ export const {
         session.user.role = token.role as UserRole;
       }
 
+      // session.user.name = token?.name ? token?.name : session.user.name;
+
       return session;
     },
     async jwt({ token, user }) {
       // The user will have a value only once during
       // log in. For all other sub-sequent calls it will have
       // undefined value.
-      if (!user) return token;
+      // So for the next sub sequent updates, we need to get
+      // the user from the DB and then perform sub sequent actions
+      // on it.
+      let existingUser;
 
+      if (!user) {
+        existingUser = await getUserById(token.sub as string);
+        if (!existingUser) {
+          return token;
+        }
+
+        token.name = existingUser?.name;
+        token.email = existingUser?.email;
+        token.role = existingUser?.role;
+
+        return token;
+      }
+      // This block of code will run during login
+      // This way we are avoiding a DB call and
+      // reducing a network request as well
       token.role = user?.role;
-
       return token;
     },
   },
