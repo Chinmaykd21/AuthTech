@@ -20,19 +20,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
 import { Input } from "@/components/ui/input";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
-import { UserRole } from "@prisma/client";
+import { Switch } from "@/components/ui/switch";
 
 const SettingsPage = () => {
   const user = useCurrentUser();
@@ -94,57 +86,87 @@ const SettingsPage = () => {
                           disabled={isPending}
                         />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          placeholder="JohnDoe@email.com"
-                          disabled={isPending}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          placeholder="******"
-                          disabled={isPending}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>New Password</FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          placeholder="******"
-                          disabled={isPending}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
+                {!user?.isOauth ? (
+                  <>
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder="JohnDoe@email.com"
+                              disabled={isPending}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="password"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Password</FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder="******"
+                              disabled={isPending}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="newPassword"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>New Password</FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder="******"
+                              disabled={isPending}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="isTwoFactorEnabled"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                          <div className="space-y-0.5">
+                            <FormLabel>Two Factor Authentication</FormLabel>
+                            <FormDescription>
+                              Enable two factor authentication for your account
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              disabled={isPending}
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </>
+                ) : null}
                 <FormField
                   control={form.control}
                   name="role"
@@ -159,6 +181,7 @@ const SettingsPage = () => {
                           disabled
                         />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -171,8 +194,6 @@ const SettingsPage = () => {
             </div>
           </form>
         </Form>
-        <br />
-        <p>{JSON.stringify(session)}</p>
       </CardContent>
     </Card>
   );

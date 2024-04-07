@@ -24,6 +24,13 @@ export const settings = async (values: z.infer<typeof settingsSchema>) => {
     };
   }
 
+  if (user.isOauth) {
+    values.email = undefined;
+    values.password = undefined;
+    values.newPassword = undefined;
+    values.isTwoFactorEnabled = undefined;
+  }
+
   await db.user.update({
     where: { id: user.id },
     data: {
