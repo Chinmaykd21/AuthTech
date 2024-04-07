@@ -4,6 +4,8 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+const domain = process.env.NEXT_PUBLIC_APP_URL;
+
 // TODO: See if this can be updated later
 export const sendTwoFactorEmail = async (email: string, token: string) => {
   await resend.emails.send({
@@ -22,7 +24,7 @@ export const sendPasswordResetEmail = async (
   email: string,
   token: string
 ) => {
-  const confirmOrResetLink = `http://localhost:3000/auth/new-password?token=${token}`;
+  const confirmOrResetLink = `${domain}/auth/new-password?token=${token}`;
   const resetPassword = true;
 
   // TODO: Once domain has been set or obtained, update this
@@ -43,7 +45,7 @@ export const sendVerificationEmail = async (
 ) => {
   // TODO: Once domain has been set or obtained, update this
   // hardcoded URL to handle production scenario
-  const confirmOrResetLink = `http://localhost:3000/auth/new-verification?token=${token}`;
+  const confirmOrResetLink = `${domain}/auth/new-verification?token=${token}`;
   const resetPassword = false;
 
   await resend.emails.send({

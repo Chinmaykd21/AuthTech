@@ -52,7 +52,7 @@ export const newPassword = async (
     };
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(password, process.env.SALT_ROUNDS!);
 
   await db.user.update({
     where: {

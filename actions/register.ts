@@ -20,8 +20,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
   const { email, password, name } = validatedFields?.data;
 
-  // TODO: Access your salt rounds via env variable
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(password, process.env.SALT_ROUNDS!);
 
   const existingUser = await getUserByEmail(email);
 

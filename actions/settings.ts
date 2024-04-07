@@ -70,7 +70,10 @@ export const settings = async (values: z.infer<typeof settingsSchema>) => {
       };
     }
 
-    const hashedPassword = await bcryptjs.hash(values.newPassword, 10);
+    const hashedPassword = await bcryptjs.hash(
+      values.newPassword,
+      process.env.SALT_ROUNDS!
+    );
 
     values.password = hashedPassword;
     values.newPassword = undefined;
