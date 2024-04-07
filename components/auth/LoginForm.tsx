@@ -58,7 +58,7 @@ export const LoginForm = () => {
     // is being used here OR why its preferred
     startTransition(() => {
       // Server action
-      login(values, callbackUrl as string)
+      login(values, callbackUrl)
         .then((data) => {
           if (data?.error) {
             form.reset();
