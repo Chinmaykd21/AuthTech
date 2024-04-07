@@ -28,7 +28,7 @@ import { login } from "@/actions/login";
 import Link from "next/link";
 export const LoginForm = () => {
   const searchParams = useSearchParams();
-
+  const callbackUrl = searchParams.get("callbackUrl");
   const urlError =
     searchParams?.get("error") === "OAuthAccountNotLinked"
       ? "Email already in use with different provider"
@@ -58,7 +58,7 @@ export const LoginForm = () => {
     // is being used here OR why its preferred
     startTransition(() => {
       // Server action
-      login(values)
+      login(values, callbackUrl as string)
         .then((data) => {
           if (data?.error) {
             form.reset();

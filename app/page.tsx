@@ -7,7 +7,7 @@ export default function Home() {
       <div className="space-y-6 text-center">
         <h1 className="text-6xl font-semibold drop-shadow-md"> 🔐 Login </h1>
       </div>
-      <SignInButton>
+      <SignInButton mode="modal" asChild>
         <Button size="lg" variant="secondary">
           Sign In
         </Button>
