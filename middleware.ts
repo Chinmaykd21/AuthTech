@@ -26,7 +26,6 @@ export default auth((req) => {
   }
 
   if (isAuthRoute) {
-    // TODO: Improve this logic to convert to single line code
     if (isLoggedIn) {
       return Response.redirect(new URL(DEFAULT_LOGIN_REDRIECT, nextUrl));
     }

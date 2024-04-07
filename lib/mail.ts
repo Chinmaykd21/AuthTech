@@ -6,7 +6,18 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 const domain = process.env.NEXT_PUBLIC_APP_URL;
 
-// TODO: See if this can be updated later
+// Note: To update from in the resend email,
+// you will need to have domain which can be
+// be bought for cheap price in godaddy.com
+// After that, you need to add this domain to
+// resend library settings and update the values
+// in DNS on your domain in godaddy.com or whichever
+// service you bought
+// Ref: https://www.youtube.com/watch?v=1MTyCvS05V4
+// TimeStamp: 7:54:25
+
+// For this project, no new domain will be bought,
+// so no code changes will happen here.
 export const sendTwoFactorEmail = async (email: string, token: string) => {
   await resend.emails.send({
     from: "onboading@resend.dev",
@@ -17,8 +28,6 @@ export const sendTwoFactorEmail = async (email: string, token: string) => {
   });
 };
 
-// TODO: Merge the two functions sendPasswordReset, and sendVerificationEmail
-// to one function
 export const sendPasswordResetEmail = async (
   name: string,
   email: string,
@@ -27,8 +36,6 @@ export const sendPasswordResetEmail = async (
   const confirmOrResetLink = `${domain}/auth/new-password?token=${token}`;
   const resetPassword = true;
 
-  // TODO: Once domain has been set or obtained, update this
-  // hardcoded URL to handle production scenario
   await resend.emails.send({
     from: "onboading@resend.dev",
     to: [email],
@@ -43,8 +50,6 @@ export const sendVerificationEmail = async (
   token: string,
   name: string
 ) => {
-  // TODO: Once domain has been set or obtained, update this
-  // hardcoded URL to handle production scenario
   const confirmOrResetLink = `${domain}/auth/new-verification?token=${token}`;
   const resetPassword = false;
 
